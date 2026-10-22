@@ -1,0 +1,5 @@
+# Arqeno — https://arqeno.pages.dev
+User-agent: *
+Allow: /
+
+Sitemap: https://arqeno.pages.dev/sitemap.xml

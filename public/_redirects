@@ -1,0 +1,3 @@
+# Cloudflare Pages — single-page application fallback.
+# Every route is served by index.html so react-router can render it on the client.
+/*    /index.html   200
