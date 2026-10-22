@@ -1,6 +1,7 @@
 import { Check } from 'lucide-react'
 import type { Project } from '../../config/projects'
 import { ExternalLink } from '../ui/ExternalLink'
+import { ProjectVisual } from './ProjectVisual'
 import { StatusPill } from './StatusPill'
 
 type ProjectCardProps = {
@@ -14,8 +15,10 @@ type ProjectCardProps = {
 /**
  * Reusable project card used on the home page and the projects page.
  *
- * Every outbound link points at the real repository, and the demo link only
- * renders when the project has a verified live URL.
+ * The illustration is a schematic drawn in SVG — a diagram of what the
+ * project is about, never a screenshot. Every outbound link points at the
+ * real repository, and the demo link only renders when the project has a
+ * verified live URL.
  */
 export function ProjectCard({
   project,
@@ -23,72 +26,91 @@ export function ProjectCard({
   index,
 }: ProjectCardProps) {
   return (
-    <article className="group relative flex h-full flex-col rounded-[6px] border border-line bg-ink-850/60 p-6 transition-colors duration-300 hover:border-accent/45 hover:bg-ink-850 sm:p-7">
-      <div className="flex items-start justify-between gap-4">
+    <article className="border-flow group relative flex h-full flex-col border border-line bg-surface transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:border-line-strong hover:shadow-lift">
+      <div className="flex items-start justify-between gap-4 border-b border-line px-5 py-3.5">
         <StatusPill status={project.status} label={project.statusLabel} />
         {typeof index === 'number' ? (
-          <span className="label-mono text-fg-subtle tabular-nums">
+          <span className="label-mono text-ink-subtle tabular-nums">
             {String(index).padStart(2, '0')}
           </span>
         ) : null}
       </div>
 
-      <h3 className="mt-5 text-xl leading-snug text-fg sm:text-[1.375rem]">
-        <a
-          href={project.repoUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="after:absolute after:inset-0 after:content-[''] hover:text-accent-soft"
-        >
-          {project.name}
-        </a>
-      </h3>
+      <div className="flex flex-1 flex-col gap-6 p-5 sm:flex-row sm:gap-7">
+        <div className="min-w-0 flex-1">
+          <h3 className="text-xl leading-snug text-ink sm:text-[1.3125rem]">
+            <a
+              href={project.repoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cursor
+              data-cursor-label="REPO"
+              className="after:absolute after:inset-0 after:content-[''] transition-colors duration-200 hover:text-accent"
+            >
+              {project.name}
+            </a>
+          </h3>
 
-      <p className="mt-2.5 text-[0.9375rem] leading-relaxed text-fg-muted">
-        {project.summary}
-      </p>
-
-      {variant === 'full' ? (
-        <>
-          <p className="mt-4 text-sm leading-relaxed text-fg-muted/90">
-            {project.description}
+          <p className="mt-2.5 text-[0.9375rem] leading-relaxed text-ink-muted">
+            {project.summary}
           </p>
 
-          {project.highlights.length > 0 ? (
-            <ul className="mt-5 space-y-2">
-              {project.highlights.map((highlight) => (
-                <li
-                  key={highlight}
-                  className="flex gap-2.5 text-[0.8125rem] leading-relaxed text-fg-muted"
-                >
-                  <Check
-                    aria-hidden="true"
-                    className="mt-0.5 size-3.5 shrink-0 text-accent"
-                  />
-                  <span>{highlight}</span>
-                </li>
-              ))}
-            </ul>
+          {variant === 'full' ? (
+            <>
+              <p className="mt-4 text-sm leading-relaxed text-ink-muted">
+                {project.description}
+              </p>
+
+              {project.highlights.length > 0 ? (
+                <ul className="mt-5 space-y-2">
+                  {project.highlights.map((highlight) => (
+                    <li
+                      key={highlight}
+                      className="flex gap-2.5 text-[0.8125rem] leading-relaxed text-ink-muted"
+                    >
+                      <Check
+                        aria-hidden="true"
+                        className="mt-0.5 size-3.5 shrink-0 text-accent"
+                      />
+                      <span>{highlight}</span>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </>
           ) : null}
-        </>
-      ) : null}
 
-      <ul className="mt-5 flex flex-wrap gap-1.5">
-        {project.tech.map((item) => (
-          <li
-            key={item}
-            className="rounded-[3px] border border-line bg-ink-800 px-2 py-1 font-mono text-[0.6875rem] tracking-tight text-fg-muted"
-          >
-            {item}
-          </li>
-        ))}
-      </ul>
+          <ul className="mt-5 flex flex-wrap gap-1.5">
+            {project.tech.map((item) => (
+              <li
+                key={item}
+                className="border border-line px-2 py-1 font-mono text-[0.6875rem] tracking-tight text-ink-muted"
+              >
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
 
-      <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-line pt-4">
+        <figure className="shrink-0 sm:w-32">
+          <div className="flex aspect-square w-28 items-center justify-center overflow-hidden border border-line bg-paper p-3 transition-colors duration-300 group-hover:border-line-strong sm:w-full">
+            <ProjectVisual
+              visual={project.visual}
+              title={`${project.name} — ${project.figure}`}
+              className="size-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
+            />
+          </div>
+          <figcaption className="label-mono mt-2 text-ink-subtle">
+            {project.figure}
+          </figcaption>
+        </figure>
+      </div>
+
+      <div className="mt-auto flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-line px-5 py-3.5">
         <ExternalLink
           href={project.repoUrl}
           label={`${project.name} GitHub repository`}
-          className="relative z-10 inline-flex items-center gap-1.5 text-[0.8125rem] text-fg-muted transition-colors duration-200 hover:text-accent-soft"
+          className="relative z-10 inline-flex items-center gap-1.5 text-[0.8125rem] text-ink-muted transition-colors duration-200 hover:text-accent"
         >
           Repository
         </ExternalLink>
@@ -97,13 +119,14 @@ export function ProjectCard({
           <ExternalLink
             href={project.demoUrl}
             label={`${project.name} live demo`}
-            className="relative z-10 inline-flex items-center gap-1.5 text-[0.8125rem] text-fg-muted transition-colors duration-200 hover:text-accent-soft"
+            cursorLabel="LIVE"
+            className="relative z-10 inline-flex items-center gap-1.5 text-[0.8125rem] text-ink-muted transition-colors duration-200 hover:text-accent"
           >
             Live demo
           </ExternalLink>
         ) : null}
 
-        <span className="ml-auto font-mono text-[0.6875rem] text-fg-subtle tabular-nums">
+        <span className="ml-auto font-mono text-[0.6875rem] text-ink-subtle tabular-nums">
           {project.year}
         </span>
       </div>

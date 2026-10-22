@@ -1,4 +1,5 @@
 import { ContactCta } from '../components/home/ContactCta'
+import { SkillsGrid } from '../components/about/SkillsGrid'
 import { SocialLinks } from '../components/about/SocialLinks'
 import { PageHeader } from '../components/ui/PageHeader'
 import { Section } from '../components/ui/Section'
@@ -52,10 +53,11 @@ export function AboutPage() {
         eyebrow="01 — The studio"
         title="What founder-led means here."
         description="Not a temporary stage before a team arrives. It is the operating model, and it decides how work is scoped, priced and handed over."
+        tone="surface"
       >
         <div className="grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-20">
-          <div className="space-y-5 text-[0.9375rem] leading-relaxed text-fg-muted">
-            <p className="text-lg leading-relaxed text-fg">
+          <div className="space-y-5 text-[0.9375rem] leading-relaxed text-ink-muted">
+            <p className="text-lg leading-relaxed text-ink">
               Most studios are either a product company or an agency. Arqeno is
               both, in a deliberately small form.
             </p>
@@ -80,16 +82,16 @@ export function AboutPage() {
             </p>
           </div>
 
-          <ul className="grid gap-px self-start overflow-hidden rounded-[6px] border border-line bg-line">
+          <ul className="grid gap-px self-start overflow-hidden rounded-[4px] border border-line bg-line">
             {studioPrinciples.map((principle, index) => (
-              <li key={principle.title} className="bg-ink-850/60 p-6">
+              <li key={principle.title} className="bg-surface p-6">
                 <span className="label-mono text-accent tabular-nums">
                   {String(index + 1).padStart(2, '0')}
                 </span>
-                <h3 className="mt-3 text-[0.9375rem] font-medium text-fg">
+                <h3 className="mt-3 text-[0.9375rem] font-medium text-ink">
                   {principle.title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-fg-muted">
+                <p className="mt-2 text-sm leading-relaxed text-ink-muted">
                   {principle.description}
                 </p>
               </li>
@@ -106,6 +108,7 @@ export function AboutPage() {
             ? 'Arqeno currently has one founder. If the studio grows, additional people will be listed here.'
             : 'The people who work on client projects at Arqeno.'
         }
+        tone="paper"
       >
         <div className="grid gap-10 lg:grid-cols-[minmax(0,22rem)_1fr] lg:gap-16">
           <div>
@@ -113,7 +116,7 @@ export function AboutPage() {
               {/* Accent frame offset behind the portrait. */}
               <span
                 aria-hidden="true"
-                className="absolute -bottom-3 -left-3 -z-10 size-full rounded-[6px] border border-accent/30"
+                className="absolute -bottom-3 -left-3 -z-10 size-full rounded-[4px] border border-accent/30"
               />
               {founder.photo ? (
                 <img
@@ -123,12 +126,12 @@ export function AboutPage() {
                   height={800}
                   loading="lazy"
                   decoding="async"
-                  className="aspect-[4/5] w-full rounded-[6px] border border-line object-cover"
+                  className="aspect-[4/5] w-full rounded-[4px] border border-line object-cover"
                 />
               ) : (
                 <div
                   aria-hidden="true"
-                  className="grid aspect-[4/5] w-full place-items-center rounded-[6px] border border-line bg-ink-850 font-display text-5xl text-fg-subtle"
+                  className="grid aspect-[4/5] w-full place-items-center rounded-[4px] border border-line bg-surface-muted font-display text-5xl text-ink-subtle"
                 >
                   {founder.name
                     .split(' ')
@@ -140,8 +143,8 @@ export function AboutPage() {
 
             <div className="mt-8">
               <p className="label-mono text-accent">{founder.role}</p>
-              <h3 className="mt-3 text-2xl text-fg">{founder.name}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-fg-muted">
+              <h3 className="mt-3 text-2xl text-ink">{founder.name}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-ink-muted">
                 {founder.shortBio}
               </p>
               <div className="mt-5">
@@ -150,14 +153,14 @@ export function AboutPage() {
             </div>
           </div>
 
-          <div className="space-y-5 text-[0.9375rem] leading-relaxed text-fg-muted lg:pt-2">
+          <div className="space-y-5 text-[0.9375rem] leading-relaxed text-ink-muted lg:pt-2">
             {founder.bio?.map((paragraph) => (
               <p key={paragraph.slice(0, 40)}>{paragraph}</p>
             ))}
 
-            <div className="rounded-[6px] border border-line bg-ink-850/60 p-6">
-              <p className="label-mono text-fg-subtle">A note on this page</p>
-              <p className="mt-3 text-sm leading-relaxed text-fg-muted">
+            <div className="rounded-[4px] border border-line bg-surface p-6">
+              <p className="label-mono text-ink-subtle">A note on this page</p>
+              <p className="mt-3 text-sm leading-relaxed text-ink-muted">
                 Arqeno publishes what can be verified. There are no client
                 testimonials, revenue figures, awards or team-size claims on
                 this site, because there is nothing verified to point at yet.
@@ -168,9 +171,18 @@ export function AboutPage() {
         </div>
       </Section>
 
+      <Section
+        eyebrow="03 — Skills & stack"
+        title="What the studio works with."
+        description="The areas the founder works in day to day. A cobalt dot marks the technologies that also appear in a public repository on this site, so the claim can be checked rather than believed."
+        tone="surface"
+      >
+        <SkillsGrid />
+      </Section>
+
       {!isFounderOnly ? (
         <Section
-          eyebrow="03 — The team"
+          eyebrow="04 — The team"
           title="Everyone who works on client projects."
           description="Listed in the order they joined the studio."
         >
@@ -178,11 +190,11 @@ export function AboutPage() {
             {team.map((member) => (
               <li
                 key={member.id}
-                className="rounded-[6px] border border-line bg-ink-850/60 p-7"
+                className="rounded-[4px] border border-line bg-surface p-7"
               >
                 <p className="label-mono text-accent">{member.role}</p>
-                <h3 className="mt-3 text-xl text-fg">{member.name}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-fg-muted">
+                <h3 className="mt-3 text-xl text-ink">{member.name}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-ink-muted">
                   {member.shortBio}
                 </p>
                 <div className="mt-5">

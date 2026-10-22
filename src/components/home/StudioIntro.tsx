@@ -29,20 +29,22 @@ export function StudioIntro() {
       id="studio"
       eyebrow="03 — The studio"
       title="A small studio, on purpose."
-      description=""
+      tone="ink"
+      atmosphere
     >
       <div className="grid gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-20">
-        <div className="space-y-5 text-[0.9375rem] leading-relaxed text-fg-muted">
-          <p className="text-lg leading-relaxed text-fg">
+        <div className="space-y-5 text-[0.9375rem] leading-relaxed text-ink-soft">
+          <p className="text-lg leading-relaxed text-ink">
             Arqeno exists because building software has two halves, and most
             studios only do one of them.
           </p>
           <p>
-            The first half is <em className="text-fg not-italic">building</em>
+            The first half is <em className="text-ink not-italic">building</em>
             &mdash; turning an idea into an interface, a backend and a model
-            that behaves predictably. The second half is <em className="text-fg not-italic">owning</em>{' '}
-            the result: living with the edge cases, keeping it online, and
-            deciding what to change next.
+            that behaves predictably. The second half is{' '}
+            <em className="text-ink not-italic">owning</em> the result: living
+            with the edge cases, keeping it online, and deciding what to change
+            next.
           </p>
           <p>
             Arqeno does both. The studio builds products of its own, so the
@@ -57,8 +59,8 @@ export function StudioIntro() {
           </p>
         </div>
 
-        <div className="rounded-[6px] border border-line bg-ink-850/60 p-7">
-          <p className="label-mono text-fg-subtle">How the work gets done</p>
+        <div className="border border-line bg-surface p-7">
+          <p className="label-mono text-ink-subtle">How the work gets done</p>
           <ul className="mt-6 space-y-6">
             {workingRules.map((rule, index) => (
               <li key={rule.title} className="flex gap-4">
@@ -69,10 +71,10 @@ export function StudioIntro() {
                   {String(index + 1).padStart(2, '0')}
                 </span>
                 <span>
-                  <span className="block text-[0.9375rem] font-medium text-fg">
+                  <span className="block text-[0.9375rem] font-medium text-ink">
                     {rule.title}
                   </span>
-                  <span className="mt-1 block text-sm leading-relaxed text-fg-muted">
+                  <span className="mt-1 block text-sm leading-relaxed text-ink-muted">
                     {rule.description}
                   </span>
                 </span>

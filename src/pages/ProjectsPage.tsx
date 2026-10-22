@@ -47,6 +47,7 @@ export function ProjectsPage() {
         eyebrow="01 — Projects"
         title="Everything in the studio."
         description="Independent products, research prototypes and smaller experiments, separated by category so nothing is over-claimed."
+        tone="surface"
       >
         <div
           role="group"
@@ -62,10 +63,10 @@ export function ProjectsPage() {
                 onClick={() => setFilter(option.value)}
                 aria-pressed={active}
                 className={[
-                  'h-9 rounded-[4px] border px-3.5 text-[0.8125rem] transition-colors duration-200',
+                  'h-9 border px-3.5 text-[0.8125rem] transition-colors duration-200',
                   active
-                    ? 'border-accent/60 bg-accent/10 text-accent-soft'
-                    : 'border-line text-fg-muted hover:border-line-strong hover:text-fg',
+                    ? 'border-accent bg-accent/10 text-accent'
+                    : 'border-line text-ink-muted hover:border-line-strong hover:text-ink',
                 ].join(' ')}
               >
                 {option.label}
@@ -89,7 +90,7 @@ export function ProjectsPage() {
           ))}
         </div>
 
-        <p className="mt-10 max-w-2xl text-sm leading-relaxed text-fg-subtle">
+        <p className="mt-10 max-w-2xl text-sm leading-relaxed text-ink-muted">
           Descriptions and technology lists are taken from each repository.
           Where a project is a prototype or a research effort, it is labelled as
           one &mdash; the label reflects what the code actually does today, not

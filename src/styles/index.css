@@ -3,49 +3,97 @@
 /* ------------------------------------------------------------------ *
  * Arqeno design tokens
  *
- * Dark charcoal surfaces, one restrained violet accent and a single
- * electric-blue support colour. Borders stay thin and low contrast so
- * the layout reads as a grid rather than a stack of floating cards.
+ * The palette follows a monochrome-first system: a warm paper canvas,
+ * white surfaces, hairline rules and a five-step ink ramp that does all
+ * the hierarchy work. Colour is used as a signal, not as decoration —
+ * exactly one cobalt accent carries the brand, and a single warm ochre
+ * marks the handful of states that genuinely need a second voice.
+ *
+ * Every value lives here as a CSS custom property, so the whole site
+ * can be re-toned from one block. The `.band-ink` scope below re-points
+ * the same variables to an inverted set, which is how dark sections are
+ * produced without a second stylesheet.
  * ------------------------------------------------------------------ */
 @theme {
-  --font-display: 'Sora', ui-sans-serif, system-ui, sans-serif;
-  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: 'Instrument Serif', ui-serif, Georgia, 'Times New Roman', serif;
+  --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  /* Surfaces, darkest to lightest */
-  --color-ink-950: #06060a;
-  --color-ink-900: #0a0a0e;
-  --color-ink-850: #0d0d13;
-  --color-ink-800: #111118;
-  --color-ink-750: #16161f;
-  --color-ink-700: #1c1c26;
+  /* Paper & surfaces */
+  --color-paper: #f7f6f3;
+  --color-surface: #ffffff;
+  --color-surface-muted: #efede7;
+  --color-surface-deep: #e7e4dc;
+
+  /* Ink ramp — headings, body, secondary and meta text */
+  --color-ink: #121216;
+  --color-ink-hover: #2c2c33;
+  --color-ink-soft: #3d3d45;
+  --color-ink-muted: #5a5a64;
+  /* Darkened to keep small meta text at 4.5:1 or better even on the
+     muted surface, which is the darkest background a label can sit on. */
+  --color-ink-subtle: #6b6b75;
 
   /* Hairlines */
-  --color-line: #21212c;
-  --color-line-strong: #30303e;
+  --color-line: #e3e0d9;
+  --color-line-strong: #cfcbc1;
 
-  /* Text */
-  --color-fg: #ececf3;
-  --color-fg-muted: #a3a3b3;
-  --color-fg-subtle: #71717f;
+  /* Brand accent — the one chromatic signal on the site */
+  --color-accent: #2a45d8;
+  --color-accent-soft: #4058e8;
+  --color-accent-deep: #1e33a8;
+  /* Text drawn on top of an accent fill. Inverted inside `.band-ink`,
+     where the accent becomes a light blue and white would not read. */
+  --color-on-accent: #ffffff;
 
-  /* Accents — used sparingly */
-  --color-accent: #7c6bff;
-  --color-accent-soft: #a396ff;
-  --color-accent-blue: #4c8dff;
+  /* Secondary accent — complementary, used sparingly */
+  --color-signal: #9d5718;
 
-  --radius-card: 6px;
+  /* Atmosphere — the soft blooms behind the content. The alpha lives in
+     the colour itself rather than in an opacity modifier, because the
+     palette has to be able to invert these along with everything else. */
+  --color-wash: rgb(42 69 216 / 0.17);
+  --color-wash-soft: rgb(42 69 216 / 0.08);
+  --color-wash-warm: rgb(157 87 24 / 0.1);
 
-  --animate-marquee: marquee 42s linear infinite;
+  --radius-card: 4px;
+
+  --shadow-soft: 0 1px 2px rgb(18 18 22 / 0.04);
+  --shadow-lift: 0 12px 30px -18px rgb(18 18 22 / 0.35);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
+/* ------------------------------------------------------------------ *
+ * Inverted scope
+ *
+ * Applied to a section, this re-points every token to its dark value.
+ * Because the utilities reference the variables, the whole section —
+ * type, rules, buttons and accents — flips in one move.
+ * ------------------------------------------------------------------ */
+.band-ink {
+  --color-paper: #121216;
+  --color-surface: #1a1a20;
+  --color-surface-muted: #212129;
+  --color-surface-deep: #2b2b35;
+  --color-ink: #f7f5f0;
+  --color-ink-hover: #ffffff;
+  --color-ink-soft: #d9d6ce;
+  --color-ink-muted: #a6a39c;
+  /* Lightened for the same reason as the light-mode value. */
+  --color-ink-subtle: #8b8882;
+  --color-line: #2d2d37;
+  --color-line-strong: #42424f;
+  --color-accent: #7b93ff;
+  --color-accent-soft: #98aaff;
+  --color-accent-deep: #5d78f0;
+  --color-on-accent: #0b1020;
+  --color-signal: #dda15f;
+  --color-wash: rgb(123 147 255 / 0.2);
+  --color-wash-soft: rgb(123 147 255 / 0.1);
+  --color-wash-warm: rgb(221 161 95 / 0.12);
+  --shadow-soft: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-lift: 0 16px 36px -20px rgb(0 0 0 / 0.9);
 }
 
 /* ------------------------------------------------------------------ *
@@ -58,10 +106,11 @@
   }
 
   body {
-    background-color: var(--color-ink-900);
-    color: var(--color-fg);
+    background-color: var(--color-paper);
+    color: var(--color-ink);
     font-family: var(--font-sans);
-    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    font-size: 1rem;
+    line-height: 1.65;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
@@ -72,8 +121,8 @@
   h3,
   h4 {
     font-family: var(--font-display);
-    font-weight: 600;
-    letter-spacing: -0.025em;
+    font-weight: 400;
+    letter-spacing: -0.015em;
     text-wrap: balance;
   }
 
@@ -82,8 +131,8 @@
   }
 
   ::selection {
-    background-color: color-mix(in oklab, var(--color-accent) 40%, transparent);
-    color: #ffffff;
+    background-color: color-mix(in oklab, var(--color-accent) 22%, transparent);
+    color: var(--color-ink);
   }
 
   :focus-visible {
@@ -103,8 +152,120 @@
       animation-duration: 0.001ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
     }
   }
+}
+
+/* ------------------------------------------------------------------ *
+ * Custom cursor
+ *
+ * The native cursor is hidden only on precise pointers that are allowed
+ * to animate, and only once the custom cursor has mounted (the
+ * `cursor-ready` class is added from JavaScript). Text fields keep their
+ * own caret and pointer behaviour.
+ *
+ * The ink shapes carry a white halo so they stay legible over both the
+ * paper sections and the inverted ones.
+ * ------------------------------------------------------------------ */
+.cursor-ready body,
+.cursor-ready body * {
+  cursor: none !important;
+}
+
+.cursor-ready input,
+.cursor-ready textarea,
+.cursor-ready select,
+.cursor-ready option,
+.cursor-ready [contenteditable='true'] {
+  cursor: auto !important;
+}
+
+.cursor-root {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+
+.cursor-root.is-visible {
+  opacity: 1;
+}
+
+/* Carries the ring and its label so they always travel together. The
+   root itself stays at the viewport origin — moving it as well would
+   apply the pointer offset twice. */
+.cursor-anchor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  will-change: transform;
+}
+
+.cursor-ring {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border: 1px solid color-mix(in oklab, var(--color-ink) 55%, transparent);
+  border-radius: 9999px;
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.55);
+  transition:
+    transform 340ms var(--ease-out-expo),
+    border-color 220ms ease,
+    background-color 220ms ease;
+}
+
+.cursor-ring.is-active {
+  transform: scale(1.85);
+  border-color: var(--color-accent);
+  background-color: color-mix(in oklab, var(--color-accent) 8%, transparent);
+}
+
+.cursor-root.is-down .cursor-ring {
+  transform: scale(0.7);
+}
+
+.cursor-dot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 5px;
+  height: 5px;
+  margin: -2.5px 0 0 -2.5px;
+  border-radius: 9999px;
+  background: var(--color-ink);
+  box-shadow: 0 0 0 1.5px rgb(255 255 255 / 0.75);
+}
+
+.cursor-label {
+  position: absolute;
+  left: 30px;
+  top: -5px;
+  color: var(--color-ink);
+  opacity: 0;
+  transform: translateX(-4px);
+  text-shadow:
+    0 0 6px rgb(255 255 255 / 0.95),
+    0 0 2px rgb(255 255 255 / 0.95);
+  transition:
+    opacity 200ms ease,
+    transform 260ms var(--ease-out-expo);
+  white-space: nowrap;
+}
+
+.cursor-root.is-active .cursor-label {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 /* ------------------------------------------------------------------ *
@@ -115,15 +276,15 @@
 @utility shell {
   margin-inline: auto;
   width: 100%;
-  max-width: 80rem;
+  max-width: 82rem;
   padding-inline: 1.25rem;
 
   @media (min-width: 768px) {
-    padding-inline: 2rem;
+    padding-inline: 2.5rem;
   }
 
   @media (min-width: 1280px) {
-    padding-inline: 2.5rem;
+    padding-inline: 3.5rem;
   }
 }
 
@@ -132,24 +293,15 @@
   background-image:
     linear-gradient(
       to right,
-      color-mix(in oklab, var(--color-fg) 5%, transparent) 1px,
+      color-mix(in oklab, var(--color-ink) 6%, transparent) 1px,
       transparent 1px
     ),
     linear-gradient(
       to bottom,
-      color-mix(in oklab, var(--color-fg) 5%, transparent) 1px,
+      color-mix(in oklab, var(--color-ink) 6%, transparent) 1px,
       transparent 1px
     );
-  background-size: 72px 72px;
-}
-
-/* A single soft accent bloom, used once per view. */
-@utility accent-bloom {
-  background-image: radial-gradient(
-    ellipse 60% 55% at 50% 0%,
-    color-mix(in oklab, var(--color-accent) 16%, transparent),
-    transparent 72%
-  );
+  background-size: 88px 88px;
 }
 
 /* Monospace eyebrow / label styling. */
@@ -157,22 +309,33 @@
   font-family: var(--font-mono);
   font-size: 0.6875rem;
   line-height: 1;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
+}
+
+/* A single hairline rule used to open a section. */
+@utility rule-accent {
+  background-image: linear-gradient(
+    to right,
+    var(--color-accent) 0 48px,
+    var(--color-line) 48px 100%
+  );
 }
 
 /* ------------------------------------------------------------------ *
  * Motion
  *
- * A single, short entrance animation used only for above-the-fold
- * content. Nothing below the fold is ever hidden behind a scroll
- * trigger, so the page is fully readable without JavaScript and no
- * content depends on an animation to become visible.
+ *  - `enter`  : a short entrance used only for above-the-fold content.
+ *  - `reveal` : a scroll-triggered reveal for content further down.
+ *
+ * Both are progressive enhancements. `.js` is added to <html> before the
+ * first render, so without JavaScript nothing is ever hidden, and the
+ * reduced-motion block below disables the effect entirely.
  * ------------------------------------------------------------------ */
 @keyframes enter {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(14px);
   }
   to {
     opacity: 1;
@@ -181,5 +344,501 @@
 }
 
 @utility enter {
-  animation: enter 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: enter 760ms var(--ease-out-expo) both;
+}
+
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 760ms var(--ease-out-expo),
+    transform 760ms var(--ease-out-expo);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.js [data-reveal='left'] {
+  transform: translateX(-26px);
+}
+
+.js [data-reveal='scale'] {
+  transform: scale(0.985);
+}
+
+.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal] {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+/* Page transition — a short fade, rise and focus pull on route change. */
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(5px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+
+@utility page-enter {
+  animation: page-in 520ms var(--ease-out-expo) both;
+}
+
+/* ------------------------------------------------------------------ *
+ * Atmosphere
+ *
+ * The palette is deliberately restrained, so the colour comes from a
+ * handful of soft washes rather than from the surfaces themselves.
+ * Every wash is built from the accent token, which means it inverts
+ * automatically inside the `.band-ink` sections.
+ * ------------------------------------------------------------------ */
+
+/* Registered so the conic border can be animated. */
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+/* A wide, very soft cobalt bloom. */
+@utility wash {
+  background-image:
+    radial-gradient(
+      58rem 30rem at 14% -14%,
+      var(--color-wash),
+      transparent 62%
+    ),
+    radial-gradient(
+      44rem 26rem at 90% 2%,
+      var(--color-wash-soft),
+      transparent 60%
+    );
+}
+
+/* A tighter bloom for the inverted bands. */
+@utility wash-ink {
+  background-image:
+    radial-gradient(
+      40rem 24rem at 12% 8%,
+      var(--color-wash),
+      transparent 64%
+    ),
+    radial-gradient(
+      34rem 22rem at 82% 78%,
+      var(--color-wash-warm),
+      transparent 62%
+    );
+}
+
+/* Drifting blobs that give the dark bands a sense of depth. */
+.aurora-blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(64px);
+  pointer-events: none;
+  will-change: transform;
+}
+
+@keyframes drift-a {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(6%, -4%, 0) scale(1.12);
+  }
+}
+
+@keyframes drift-b {
+  from {
+    transform: translate3d(0, 0, 0) scale(1.06);
+  }
+  to {
+    transform: translate3d(-7%, 5%, 0) scale(0.94);
+  }
+}
+
+.aurora-a {
+  animation: drift-a 22s ease-in-out infinite alternate;
+}
+
+.aurora-b {
+  animation: drift-b 28s ease-in-out infinite alternate;
+}
+
+/* ------------------------------------------------------------------ *
+ * Gradient text
+ *
+ * A slow drift across the accent. Falls back to a solid accent colour
+ * where `background-clip: text` is unavailable.
+ * ------------------------------------------------------------------ */
+@utility text-gradient {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-accent) 0%,
+    var(--color-accent-soft) 34%,
+    var(--color-accent-deep) 52%,
+    var(--color-accent-soft) 70%,
+    var(--color-accent) 100%
+  );
+  background-size: 260% 100%;
+  background-position: 0% 50%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradient-drift 12s var(--ease-out-expo) infinite alternate;
+}
+
+@keyframes gradient-drift {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 100% 50%;
+  }
+}
+
+@supports not (background-clip: text) {
+  .text-gradient {
+    background: none;
+    color: var(--color-accent);
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Flow
+ *
+ *  - `rule-flow` : a highlight that travels along a hairline.
+ *  - `marquee`   : a slow, seamless ticker of the studio's stack.
+ *  - `sheen`     : a light sweep across a filled button.
+ * ------------------------------------------------------------------ */
+.rule-flow {
+  position: relative;
+  height: 1px;
+  overflow: hidden;
+  background: var(--color-line);
+}
+
+.rule-flow::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-accent),
+    transparent
+  );
+  transform: translateX(-100%);
+  animation: rule-sweep 4.2s var(--ease-out-expo) infinite;
+}
+
+@keyframes rule-sweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  55%,
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.marquee {
+  display: flex;
+  overflow: hidden;
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 7%,
+    #000 93%,
+    transparent
+  );
+}
+
+.marquee-track {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 3.5rem;
+  padding-right: 3.5rem;
+  animation: marquee-scroll 44s linear infinite;
+  will-change: transform;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-scroll {
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.sheen {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.sheen::after {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 -65%;
+  width: 42%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgb(255 255 255 / 0.38),
+    transparent
+  );
+  transform: skewX(-18deg);
+  transition: left 680ms var(--ease-out-expo);
+  pointer-events: none;
+}
+
+.sheen:hover::after,
+.sheen:focus-visible::after {
+  left: 125%;
+}
+
+/* ------------------------------------------------------------------ *
+ * Gradient border
+ *
+ * A conic gradient that rotates slowly behind the element and only
+ * becomes visible on hover. The angle is a registered custom property
+ * so it can be animated.
+ * ------------------------------------------------------------------ */
+.border-flow {
+  position: relative;
+}
+
+.border-flow::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--angle, 0deg),
+    transparent 0%,
+    var(--color-accent) 9%,
+    transparent 20%,
+    transparent 52%,
+    var(--color-accent) 62%,
+    transparent 76%,
+    transparent 100%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 340ms ease;
+  animation: angle-spin 7s linear infinite;
+  pointer-events: none;
+}
+
+.border-flow:hover::before,
+.border-flow:focus-within::before {
+  opacity: 1;
+}
+
+@keyframes angle-spin {
+  to {
+    --angle: 360deg;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Scroll progress
+ *
+ * A hairline across the top of the header that fills as the page is
+ * read. Purely decorative, so it is hidden from assistive technology.
+ * ------------------------------------------------------------------ */
+.scroll-progress {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 100%;
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  background: linear-gradient(
+    90deg,
+    var(--color-accent),
+    var(--color-accent-soft)
+  );
+  opacity: 0;
+  transition: opacity 240ms ease;
+}
+
+.scroll-progress.is-active {
+  opacity: 1;
+}
+
+/* ------------------------------------------------------------------ *
+ * Hero schematic
+ *
+ * A viewfinder diagram that leans a couple of degrees towards the
+ * pointer. The tilt is written to custom properties from JavaScript, so
+ * no React state is involved.
+ * ------------------------------------------------------------------ */
+.hero-schematic {
+  transform-box: view-box;
+  transform-origin: center;
+  transform:
+    translate(calc(var(--tx, 0) * 7px), calc(var(--ty, 0) * 7px))
+    rotate(calc(var(--tx, 0) * 2.4deg));
+  transition: transform 700ms var(--ease-out-expo);
+}
+
+@keyframes hero-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.hero-arc {
+  transform-box: view-box;
+  transform-origin: center;
+  animation: hero-spin 34s linear infinite;
+}
+
+/* The marked nodes breathe, very slowly. */
+@keyframes node-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.22);
+  }
+}
+
+.hero-node {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: node-pulse 6.5s ease-in-out infinite;
+}
+
+@keyframes float-soft {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-9px);
+  }
+}
+
+.float-soft {
+  animation: float-soft 7s ease-in-out infinite;
+}
+
+/* ------------------------------------------------------------------ *
+ * Link behaviour
+ *
+ * A rule that draws itself in from the left on hover, plus a small
+ * directional nudge on the arrow that usually accompanies it.
+ * ------------------------------------------------------------------ */
+@layer components {
+  .link-line {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0% 1px;
+    transition:
+      background-size 340ms var(--ease-out-expo),
+      color 200ms ease;
+  }
+
+  .link-line:hover,
+  .link-line:focus-visible {
+    background-size: 100% 1px;
+  }
+
+  /* The reference treatment: a rule that is already partly drawn and
+     completes itself on hover. */
+  .link-grow {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 40% 1.5px;
+    transition: background-size 340ms var(--ease-out-expo);
+  }
+
+  .link-grow:hover,
+  .link-grow:focus-visible {
+    background-size: 100% 1.5px;
+  }
+
+  .arrow-nudge {
+    transition: transform 320ms var(--ease-out-expo);
+  }
+
+  .group:hover .arrow-nudge,
+  .group:focus-visible .arrow-nudge {
+    transform: translate(3px, -3px);
+  }
+
+  .group:hover .arrow-slide,
+  .group:focus-visible .arrow-slide {
+    transform: translateX(4px);
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Reduced motion
+ *
+ * The motion vocabulary, switched off by name rather than left to the
+ * global `animation-duration: 0.001ms` override — so nothing settles in
+ * an odd intermediate frame (a half-scrolled ticker, a gradient caught
+ * mid-drift, a border caught mid-rotation).
+ *
+ * This block sits at the end of the file on purpose: it has to win over
+ * the base rules above, which are written at the same specificity.
+ * ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+    transform: none;
+  }
+
+  .aurora-a,
+  .aurora-b,
+  .float-soft,
+  .hero-node,
+  .text-gradient {
+    animation: none;
+  }
+
+  .rule-flow::after {
+    animation: none;
+    opacity: 0;
+  }
+
+  .border-flow::before {
+    animation: none;
+  }
+
+  .sheen::after {
+    display: none;
+  }
 }

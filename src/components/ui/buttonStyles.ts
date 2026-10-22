@@ -1,21 +1,24 @@
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'quiet'
 export type ButtonSize = 'sm' | 'md' | 'lg'
 
+/**
+ * Sharp corners and a single fill. The accent is reserved for the one
+ * action that matters on a given view — everything else is ink on paper.
+ */
 const base =
-  'inline-flex items-center justify-center gap-2 rounded-[4px] font-medium tracking-[-0.01em] transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-50'
+  'group relative inline-flex items-center justify-center gap-2 font-medium tracking-[-0.005em] transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-50'
 
 const variants: Record<ButtonVariant, string> = {
-  primary:
-    'bg-accent text-ink-950 hover:bg-accent-soft active:bg-accent shadow-[0_0_0_1px_color-mix(in_oklab,var(--color-accent)_60%,transparent)]',
+  primary: 'sheen bg-accent text-on-accent hover:bg-accent-soft',
   secondary:
-    'border border-line-strong bg-transparent text-fg hover:border-accent/60 hover:text-accent-soft',
+    'border border-ink/20 text-ink hover:border-ink/45 hover:bg-surface-muted',
   ghost:
-    'border border-transparent bg-transparent text-fg-muted hover:text-fg hover:border-line-strong',
-  quiet: 'bg-transparent text-fg-muted hover:text-fg',
+    'border border-transparent bg-transparent text-ink-muted hover:border-line hover:bg-surface-muted hover:text-ink',
+  quiet: 'bg-transparent text-ink-muted hover:text-ink',
 }
 
 const sizes: Record<ButtonSize, string> = {
-  sm: 'h-9 px-3.5 text-[0.8125rem]',
+  sm: 'h-9 px-4 text-[0.8125rem]',
   md: 'h-11 px-5 text-sm',
   lg: 'h-12 px-6 text-[0.9375rem]',
 }

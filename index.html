@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="color-scheme" content="dark" />
-    <meta name="theme-color" content="#0a0a0e" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#f7f6f3" />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/favicon.svg" />
@@ -12,11 +12,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&family=Sora:wght@500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400..700&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
 
-    <title>Arqeno — Software studio for real-world problems</title>
+    <title>Arqeno — an independent software studio</title>
     <meta
       name="description"
       content="Arqeno is a founder-led software studio building digital products, web applications and AI-powered tools, and helping clients turn ideas into working software."
@@ -26,18 +26,21 @@
       The values below are the defaults for the home page. Each route updates
       the title, description, canonical URL and social tags at runtime via
       the `useSeo` hook in src/hooks/useSeo.ts.
+
+      %SITE_URL% is replaced at build time from src/config/site.json, so the
+      canonical URL is defined in exactly one place.
     -->
-    <link rel="canonical" href="https://arqeno.pages.dev/" />
+    <link rel="canonical" href="%SITE_URL%/" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Arqeno" />
     <meta property="og:locale" content="en_US" />
-    <meta property="og:title" content="Arqeno — Software studio for real-world problems" />
+    <meta property="og:title" content="Arqeno — an independent software studio" />
     <meta
       property="og:description"
       content="Arqeno is a founder-led software studio building digital products, web applications and AI-powered tools, and helping clients turn ideas into working software."
     />
-    <meta property="og:url" content="https://arqeno.pages.dev/" />
-    <meta property="og:image" content="https://arqeno.pages.dev/og-image.png" />
+    <meta property="og:url" content="%SITE_URL%/" />
+    <meta property="og:image" content="%SITE_URL%/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta
@@ -45,12 +48,12 @@
       content="Arqeno — a founder-led software studio building digital products and software for real-world problems."
     />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Arqeno — Software studio for real-world problems" />
+    <meta name="twitter:title" content="Arqeno — an independent software studio" />
     <meta
       name="twitter:description"
       content="A founder-led software studio building digital products, web applications and AI-powered tools."
     />
-    <meta name="twitter:image" content="https://arqeno.pages.dev/og-image.png" />
+    <meta name="twitter:image" content="%SITE_URL%/og-image.png" />
 
     <meta name="author" content="Arqeno" />
     <meta name="robots" content="index, follow" />
@@ -62,11 +65,12 @@
         "@context": "https://schema.org",
         "@type": "Organization",
         "name": "Arqeno",
-        "url": "https://arqeno.pages.dev",
+        "url": "%SITE_URL%",
         "description": "A founder-led software studio building digital products, web applications and AI-powered tools.",
         "email": "aryankushwaha9829@gmail.com",
         "sameAs": [
           "https://github.com/kushwaha-aryan",
+          "https://www.linkedin.com/in/aryan-kushwaha-608204322/",
           "https://leetcode.com/u/dartGoblin42/"
         ]
       }
@@ -76,13 +80,13 @@
   <body>
     <div id="root"></div>
     <noscript>
-      <div style="padding: 2rem; color: #ececf3; font-family: system-ui, sans-serif">
-        <h1 style="font-size: 1.5rem">Arqeno</h1>
-        <p style="color: #a3a3b3; max-width: 40rem; line-height: 1.6">
+      <div style="padding: 3rem; color: #121216; font-family: Georgia, serif; max-width: 40rem">
+        <h1 style="font-size: 1.75rem; font-weight: 400">Arqeno</h1>
+        <p style="color: #5a5a64; line-height: 1.7">
           Arqeno is a founder-led software studio building digital products, web
           applications and AI-powered tools. This site needs JavaScript enabled.
           You can also browse the projects directly on
-          <a style="color: #a396ff" href="https://github.com/kushwaha-aryan">GitHub</a>.
+          <a style="color: #2a45d8" href="https://github.com/kushwaha-aryan">GitHub</a>.
         </p>
       </div>
     </noscript>

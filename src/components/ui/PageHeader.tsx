@@ -8,46 +8,45 @@ type PageHeaderProps = {
 }
 
 /**
- * Shared header block for the inner pages, keeping the vertical rhythm and
- * the mono eyebrow consistent across the whole site.
+ * Shared header block for the inner pages. The mono eyebrow, the oversized
+ * serif heading and the two-column split stay identical across the site so
+ * every route opens with the same rhythm.
  */
 export function PageHeader({ eyebrow, title, description, aside }: PageHeaderProps) {
   return (
-    <section className="relative overflow-hidden border-b border-line">
+    <section className="relative overflow-hidden border-b border-line bg-paper">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 grid-lines opacity-60 [mask-image:radial-gradient(ellipse_70%_70%_at_40%_0%,#000_30%,transparent_100%)]"
+        className="wash pointer-events-none absolute inset-0 opacity-80"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 accent-bloom opacity-60"
+        className="grid-lines pointer-events-none absolute inset-0 opacity-70 [mask-image:radial-gradient(ellipse_80%_80%_at_35%_0%,#000_25%,transparent_100%)]"
       />
 
-      <div className="shell relative pt-16 pb-14 sm:pt-24 sm:pb-16 lg:pt-28 lg:pb-20">
+      <div className="shell relative pt-14 pb-14 sm:pt-20 sm:pb-16 lg:pt-24 lg:pb-20">
         <p
-          className="label-mono enter flex items-center gap-3 text-fg-subtle"
+          className="label-mono enter flex items-center gap-3 text-ink-subtle"
           style={{ animationDelay: '40ms' }}
         >
           <span aria-hidden="true" className="inline-block h-px w-8 bg-accent" />
           {eyebrow}
         </p>
 
-        <div className="mt-6 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between lg:gap-16">
-          <div className="max-w-3xl">
-            <h1
-              className="enter text-[2.25rem] leading-[1.08] tracking-[-0.035em] text-fg sm:text-[2.875rem] lg:text-[3.5rem]"
-              style={{ animationDelay: '110ms' }}
-            >
-              {title}
-            </h1>
-            <p
-              className="enter mt-6 max-w-2xl text-base leading-relaxed text-fg-muted sm:text-lg"
-              style={{ animationDelay: '170ms' }}
-            >
+        <div className="mt-7 grid gap-8 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] lg:items-end lg:gap-16">
+          <h1 className="enter max-w-4xl text-[clamp(2.5rem,6.4vw,4.75rem)] leading-[1.02] text-ink" style={{ animationDelay: '110ms' }}>
+            {title}
+          </h1>
+
+          <div
+            className="enter lg:pb-2"
+            style={{ animationDelay: '170ms' }}
+          >
+            <p className="max-w-xl text-base leading-relaxed text-ink-muted">
               {description}
             </p>
+            {aside ? <div className="mt-6">{aside}</div> : null}
           </div>
-          {aside ? <div className="shrink-0">{aside}</div> : null}
         </div>
       </div>
     </section>

@@ -130,9 +130,9 @@ export function InquiryForm() {
   }
 
   const fieldClass =
-    'w-full rounded-[4px] border border-line bg-ink-950 px-3.5 py-2.5 text-sm text-fg placeholder:text-fg-subtle transition-colors duration-200 hover:border-line-strong focus:border-accent/70 focus:outline-none focus-visible:outline-none'
+    'w-full border border-line bg-paper px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-subtle transition-colors duration-200 hover:border-line-strong focus:border-accent focus:outline-none focus-visible:outline-none'
 
-  const errorClass = 'border-red-400/70'
+  const errorClass = 'border-[#b3261e]/60'
 
   return (
     <div>
@@ -141,9 +141,9 @@ export function InquiryForm() {
           <div>
             <label
               htmlFor="name"
-              className="mb-2 block text-[0.8125rem] font-medium text-fg"
+              className="mb-2 block text-[0.8125rem] font-medium text-ink"
             >
-              Name <span className="text-fg-subtle">(required)</span>
+              Name <span className="text-ink-subtle">(required)</span>
             </label>
             <input
               id="name"
@@ -157,7 +157,7 @@ export function InquiryForm() {
               className={`${fieldClass} ${errors.name ? errorClass : ''}`}
             />
             {errors.name ? (
-              <p id="name-error" className="mt-2 text-xs text-red-300">
+              <p id="name-error" className="mt-2 text-xs text-[#b3261e]">
                 {errors.name}
               </p>
             ) : null}
@@ -166,9 +166,9 @@ export function InquiryForm() {
           <div>
             <label
               htmlFor="email"
-              className="mb-2 block text-[0.8125rem] font-medium text-fg"
+              className="mb-2 block text-[0.8125rem] font-medium text-ink"
             >
-              Email <span className="text-fg-subtle">(required)</span>
+              Email <span className="text-ink-subtle">(required)</span>
             </label>
             <input
               id="email"
@@ -182,7 +182,7 @@ export function InquiryForm() {
               className={`${fieldClass} ${errors.email ? errorClass : ''}`}
             />
             {errors.email ? (
-              <p id="email-error" className="mt-2 text-xs text-red-300">
+              <p id="email-error" className="mt-2 text-xs text-[#b3261e]">
                 {errors.email}
               </p>
             ) : null}
@@ -193,9 +193,9 @@ export function InquiryForm() {
           <div>
             <label
               htmlFor="projectType"
-              className="mb-2 block text-[0.8125rem] font-medium text-fg"
+              className="mb-2 block text-[0.8125rem] font-medium text-ink"
             >
-              Project type <span className="text-fg-subtle">(required)</span>
+              Project type <span className="text-ink-subtle">(required)</span>
             </label>
             <select
               id="projectType"
@@ -205,18 +205,18 @@ export function InquiryForm() {
               aria-invalid={errors.projectType ? true : undefined}
               aria-describedby={errors.projectType ? 'projectType-error' : undefined}
               className={`${fieldClass} ${errors.projectType ? errorClass : ''} ${
-                values.projectType ? '' : 'text-fg-subtle'
+                values.projectType ? '' : 'text-ink-subtle'
               }`}
             >
               <option value="">Choose one…</option>
               {projectTypes.map((type) => (
-                <option key={type} value={type} className="text-fg">
+                <option key={type} value={type} className="text-ink">
                   {type}
                 </option>
               ))}
             </select>
             {errors.projectType ? (
-              <p id="projectType-error" className="mt-2 text-xs text-red-300">
+              <p id="projectType-error" className="mt-2 text-xs text-[#b3261e]">
                 {errors.projectType}
               </p>
             ) : null}
@@ -225,9 +225,9 @@ export function InquiryForm() {
           <div>
             <label
               htmlFor="budget"
-              className="mb-2 block text-[0.8125rem] font-medium text-fg"
+              className="mb-2 block text-[0.8125rem] font-medium text-ink"
             >
-              Budget <span className="text-fg-subtle">(optional)</span>
+              Budget <span className="text-ink-subtle">(optional)</span>
             </label>
             <input
               id="budget"
@@ -239,7 +239,7 @@ export function InquiryForm() {
               className={fieldClass}
               placeholder="A rough range is fine — or leave it blank"
             />
-            <p id="budget-hint" className="mt-2 text-xs text-fg-subtle">
+            <p id="budget-hint" className="mt-2 text-xs text-ink-subtle">
               Used only to judge scope. It is not binding.
             </p>
           </div>
@@ -248,9 +248,9 @@ export function InquiryForm() {
         <div>
           <label
             htmlFor="message"
-            className="mb-2 block text-[0.8125rem] font-medium text-fg"
+            className="mb-2 block text-[0.8125rem] font-medium text-ink"
           >
-            Message <span className="text-fg-subtle">(required)</span>
+            Message <span className="text-ink-subtle">(required)</span>
           </label>
           <textarea
             id="message"
@@ -266,11 +266,11 @@ export function InquiryForm() {
             placeholder="What are you trying to build, who is it for, and what is in the way?"
           />
           {errors.message ? (
-            <p id="message-error" className="mt-2 text-xs text-red-300">
+            <p id="message-error" className="mt-2 text-xs text-[#b3261e]">
               {errors.message}
             </p>
           ) : (
-            <p id="message-hint" className="mt-2 text-xs text-fg-subtle">
+            <p id="message-hint" className="mt-2 text-xs text-ink-subtle">
               Include a timeline and any links to existing material if you have
               them.
             </p>
@@ -280,7 +280,7 @@ export function InquiryForm() {
         <div className="flex flex-col gap-4 border-t border-line pt-6">
           <button
             type="submit"
-            className="inline-flex h-12 items-center justify-center gap-2 rounded-[4px] bg-accent px-6 text-[0.9375rem] font-medium text-ink-950 transition-colors duration-200 hover:bg-accent-soft"
+            className="sheen inline-flex h-12 items-center justify-center gap-2 bg-accent px-6 text-[0.9375rem] font-medium text-on-accent transition-colors duration-200 hover:bg-accent-soft"
           >
             <Send aria-hidden="true" className="size-4" />
             Send via email
@@ -289,13 +289,13 @@ export function InquiryForm() {
           {status === 'ready' ? (
             <p
               role="status"
-              className="rounded-[4px] border border-accent/40 bg-accent/10 px-4 py-3 text-sm leading-relaxed text-fg"
+              className="rounded-[4px] border border-accent/40 bg-accent/10 px-4 py-3 text-sm leading-relaxed text-ink"
             >
               Your email app should now be open with the message pre-filled. If
               nothing happened, email{' '}
               <a
                 href={`mailto:${siteConfig.email}`}
-                className="text-accent-soft underline underline-offset-4"
+                className="text-accent underline underline-offset-4"
               >
                 {siteConfig.email}
               </a>{' '}
@@ -303,7 +303,7 @@ export function InquiryForm() {
             </p>
           ) : null}
 
-          <p className="text-xs leading-relaxed text-fg-subtle">
+          <p className="text-xs leading-relaxed text-ink-subtle">
             This form does not send anything on its own &mdash; there is no
             server behind it. It checks your details, then opens your own mail
             app with everything filled in, so nothing is stored anywhere.
@@ -311,12 +311,12 @@ export function InquiryForm() {
         </div>
       </form>
 
-      <div className="mt-10 rounded-[6px] border border-line bg-ink-850/60 p-6">
-        <p className="label-mono text-fg-subtle">Prefer to write directly?</p>
+      <div className="mt-10 border border-line bg-paper p-6">
+        <p className="label-mono text-ink-subtle">Prefer to write directly?</p>
         <div className="mt-4 flex flex-wrap items-center gap-3">
           <a
             href={`mailto:${siteConfig.email}`}
-            className="inline-flex items-center gap-2 text-sm text-fg transition-colors duration-200 hover:text-accent-soft"
+            className="inline-flex items-center gap-2 text-sm text-ink transition-colors duration-200 hover:text-accent"
           >
             <Mail aria-hidden="true" className="size-4" />
             {siteConfig.email}
@@ -324,10 +324,10 @@ export function InquiryForm() {
           <button
             type="button"
             onClick={copyAddress}
-            className="inline-flex h-8 items-center gap-1.5 rounded-[4px] border border-line px-2.5 text-xs text-fg-muted transition-colors duration-200 hover:border-line-strong hover:text-fg"
+            className="inline-flex h-8 items-center gap-1.5 border border-line px-2.5 text-xs text-ink-muted transition-colors duration-200 hover:border-line-strong hover:text-ink"
           >
             {copied ? (
-              <Check aria-hidden="true" className="size-3.5 text-emerald-400" />
+              <Check aria-hidden="true" className="size-3.5 text-accent" />
             ) : (
               <Copy aria-hidden="true" className="size-3.5" />
             )}

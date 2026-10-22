@@ -1,10 +1,10 @@
-import { Briefcase, CodeXml, Globe, Mail, Trophy } from 'lucide-react'
+import { CodeXml, Globe, Mail, Trophy } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import type { SocialLink } from '../../config/founder'
+import { LinkedInIcon } from '../ui/LinkedInIcon'
 
 const icons: Record<string, LucideIcon> = {
   GitHub: CodeXml,
-  LinkedIn: Briefcase,
   LeetCode: Trophy,
   Website: Globe,
   Email: Mail,
@@ -27,9 +27,15 @@ export function SocialLinks({ links }: { links: SocialLink[] }) {
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex h-9 items-center gap-2 rounded-[4px] border border-line px-3 text-[0.8125rem] text-fg-muted transition-colors duration-200 hover:border-accent/60 hover:text-accent-soft"
+              data-cursor
+              data-cursor-label={link.label.toUpperCase()}
+              className="inline-flex h-9 items-center gap-2 border border-line px-3 text-[0.8125rem] text-ink-muted transition-colors duration-200 hover:border-accent/60 hover:text-accent"
             >
-              {Icon ? <Icon aria-hidden="true" className="size-4" /> : null}
+              {link.label === 'LinkedIn' ? (
+                <LinkedInIcon className="size-3.5" />
+              ) : Icon ? (
+                <Icon aria-hidden="true" className="size-4" />
+              ) : null}
               {link.label}
             </a>
           </li>

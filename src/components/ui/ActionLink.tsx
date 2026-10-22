@@ -12,6 +12,8 @@ type ActionLinkProps = {
   variant?: ButtonVariant
   size?: ButtonSize
   className?: string
+  /** Short label shown beside the custom cursor. */
+  cursorLabel?: string
   children: ReactNode
 }
 
@@ -30,13 +32,17 @@ export function ActionLink({
   variant = 'primary',
   size = 'md',
   className = '',
+  cursorLabel,
   children,
 }: ActionLinkProps) {
   const classes = buttonStyles(variant, size, className)
+  const cursorProps = cursorLabel
+    ? { 'data-cursor': true, 'data-cursor-label': cursorLabel }
+    : {}
 
   if (to) {
     return (
-      <Link to={to} className={classes}>
+      <Link to={to} className={classes} {...cursorProps}>
         {children}
       </Link>
     )
@@ -46,6 +52,7 @@ export function ActionLink({
     <a
       href={href}
       className={classes}
+      {...cursorProps}
       {...(external
         ? { target: '_blank', rel: 'noopener noreferrer' }
         : {})}

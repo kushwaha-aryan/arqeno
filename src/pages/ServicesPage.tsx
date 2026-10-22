@@ -27,26 +27,27 @@ export function ServicesPage() {
         eyebrow="01 — What can be delivered"
         title="Four kinds of work."
         description="Each service lists what is actually included, so there is a shared understanding before anyone signs anything."
+        tone="surface"
       >
         <div className="grid gap-5 lg:grid-cols-2">
           {services.map((service, index) => (
             <article
               key={service.id}
-              className="group relative flex flex-col rounded-[6px] border border-line bg-ink-850/60 p-7 transition-colors duration-300 hover:border-accent/45 sm:p-8"
+              className="border-flow group relative flex flex-col border border-line bg-paper p-7 transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:border-line-strong hover:shadow-lift sm:p-8"
             >
               <div className="flex items-start justify-between gap-4">
-                <span className="grid size-10 place-items-center rounded-[5px] border border-line bg-ink-800 text-accent-soft transition-colors duration-300 group-hover:border-accent/50">
+                <span className="grid size-10 place-items-center border border-line bg-surface text-accent transition-colors duration-300 group-hover:border-accent/50">
                   <ServiceIcon name={service.icon} />
                 </span>
-                <span className="label-mono text-fg-subtle tabular-nums">
+                <span className="label-mono text-ink-subtle tabular-nums">
                   {String(index + 1).padStart(2, '0')}
                 </span>
               </div>
 
-              <h3 className="mt-6 text-xl leading-snug text-fg sm:text-[1.375rem]">
+              <h3 className="mt-6 text-xl leading-snug text-ink sm:text-[1.375rem]">
                 {service.title}
               </h3>
-              <p className="mt-3 text-[0.9375rem] leading-relaxed text-fg-muted">
+              <p className="mt-3 text-[0.9375rem] leading-relaxed text-ink-muted">
                 {service.description}
               </p>
 
@@ -54,7 +55,7 @@ export function ServicesPage() {
                 {service.deliverables.map((deliverable) => (
                   <li
                     key={deliverable}
-                    className="flex gap-2.5 text-sm leading-relaxed text-fg-muted"
+                    className="flex gap-2.5 text-sm leading-relaxed text-ink-muted"
                   >
                     <Check
                       aria-hidden="true"
@@ -73,15 +74,16 @@ export function ServicesPage() {
         eyebrow="02 — How an engagement runs"
         title="Four steps, no surprises."
         description="The same sequence applies to a one-page site and a multi-month application build."
+        tone="paper"
       >
-        <ol className="grid gap-px overflow-hidden rounded-[6px] border border-line bg-line md:grid-cols-2 xl:grid-cols-4">
+        <ol className="grid gap-px overflow-hidden border border-line bg-line md:grid-cols-2 xl:grid-cols-4">
           {processSteps.map((step) => (
-            <li key={step.step} className="bg-ink-900 p-7">
+            <li key={step.step} className="bg-surface p-7">
               <span className="label-mono text-accent tabular-nums">
                 {step.step}
               </span>
-              <h3 className="mt-4 text-lg text-fg">{step.title}</h3>
-              <p className="mt-2.5 text-sm leading-relaxed text-fg-muted">
+              <h3 className="mt-4 text-lg text-ink">{step.title}</h3>
+              <p className="mt-2.5 text-sm leading-relaxed text-ink-muted">
                 {step.description}
               </p>
             </li>
@@ -93,8 +95,10 @@ export function ServicesPage() {
         eyebrow="03 — What this is not"
         title="Honest limits."
         description="A short list of what a founder-led studio cannot promise, so the wrong project is declined early."
+        tone="ink"
+        atmosphere
       >
-        <ul className="grid gap-px overflow-hidden rounded-[6px] border border-line bg-line sm:grid-cols-2">
+        <ul className="grid gap-px overflow-hidden border border-line bg-line sm:grid-cols-2">
           {[
             'No guaranteed timelines or rankings. Estimates depend on decisions that have not been made yet.',
             'No 24/7 operations team. Hosting, monitoring and incidents are handled by the person who built the system.',
@@ -103,7 +107,7 @@ export function ServicesPage() {
           ].map((item) => (
             <li
               key={item}
-              className="bg-ink-900 p-6 text-sm leading-relaxed text-fg-muted"
+              className="bg-surface p-6 text-sm leading-relaxed text-ink-muted"
             >
               {item}
             </li>

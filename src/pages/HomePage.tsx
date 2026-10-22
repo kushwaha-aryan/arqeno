@@ -7,7 +7,7 @@ import { useSeo } from '../hooks/useSeo'
 
 export function HomePage() {
   useSeo({
-    title: 'Arqeno',
+    title: 'Arqeno — an independent software studio',
     description:
       'Arqeno is a founder-led software studio building digital products, web applications and AI-powered tools, and helping clients turn ideas into working software.',
     path: '/',

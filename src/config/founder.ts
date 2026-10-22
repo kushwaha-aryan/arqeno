@@ -55,9 +55,8 @@ export const team: TeamMember[] = [
     ],
     links: {
       github: 'https://github.com/kushwaha-aryan',
+      linkedin: 'https://www.linkedin.com/in/aryan-kushwaha-608204322/',
       leetcode: 'https://leetcode.com/u/dartGoblin42/',
-      // Add a verified LinkedIn profile URL here to show the button.
-      linkedin: '',
     },
   },
 ]

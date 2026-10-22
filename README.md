@@ -11,6 +11,7 @@ Cloudflare Pages at no cost.
 ## Contents
 
 - [Stack](#stack)
+- [Design system](#design-system)
 - [Getting started](#getting-started)
 - [Project structure](#project-structure)
 - [Configuration](#configuration)
@@ -25,19 +26,131 @@ Cloudflare Pages at no cost.
 
 ## Stack
 
-| Concern    | Choice                                   | Why                                                              |
-| ---------- | ---------------------------------------- | ---------------------------------------------------------------- |
-| Framework  | React 19                                  | Component model, mature ecosystem                                 |
-| Language   | TypeScript 5.9 (`strict`)                | Catches mistakes at build time, self-documenting code             |
-| Bundler    | Vite 7                                    | Fast dev server, tiny production build                           |
-| Styling    | Tailwind CSS 4 (CSS-first `@theme`)      | Design tokens live in one file, no config duplication             |
-| Routing    | React Router 7                            | Client-side routes with nested layouts                           |
-| Icons      | Lucide React                              | Tree-shakeable, consistent icon set                               |
-| Hosting    | Cloudflare Pages                          | Free, static, global edge network                                |
+| Concern     | Choice                                   | Why                                                              |
+| ----------- | ---------------------------------------- | ---------------------------------------------------------------- |
+| Framework   | React 19                                  | Component model, mature ecosystem                                 |
+| Language    | TypeScript 5.9 (`strict`)                | Catches mistakes at build time, self-documenting code             |
+| Bundler     | Vite 7                                    | Fast dev server, tiny production build                           |
+| Styling     | Tailwind CSS 4 (CSS-first `@theme`)      | Design tokens live in one file, no config duplication             |
+| Routing     | React Router 7                            | Client-side routes with nested layouts                           |
+| Icons       | Lucide React                              | Tree-shakeable, consistent icon set                               |
+| Typography  | Instrument Serif, Instrument Sans, JetBrains Mono | A display / text / label trio, self-hosted via Google Fonts |
+| Hosting     | Cloudflare Pages                          | Free, static, global edge network                                |
 
 Runtime dependencies: `react`, `react-dom`, `react-router-dom`, `lucide-react`.
 Everything else is a dev dependency. No analytics, no fonts SDK, no paid
 service, no API keys.
+
+---
+
+## Design system
+
+The palette is deliberately **achromatic with a single chromatic signal**:
+paper and ink do nearly all the work, and cobalt appears only where the eye
+should go — primary buttons, the active filter, focus rings, the point in the
+mark. A single ochre "signal" colour is used sparingly for status.
+
+### Colour tokens
+
+All tokens are CSS custom properties declared in the `@theme` block of
+`src/styles/index.css`. Change a value there and the whole site follows.
+
+| Token                   | Light      | Inverted band | Used for                              |
+| ----------------------- | ---------- | ------------- | ------------------------------------- |
+| `--color-paper`         | `#f7f6f3`  | `#121216`     | Page and section background           |
+| `--color-surface`       | `#ffffff`  | `#1a1a20`     | Raised cards                          |
+| `--color-surface-muted` | `#efede7`  | `#212129`     | Inset panels, footer container        |
+| `--color-ink`           | `#121216`  | `#f7f5f0`     | Headings                              |
+| `--color-ink-hover`     | `#2c2c33`  | `#ffffff`     | Heading hover                         |
+| `--color-ink-soft`      | `#3d3d45`  | `#d9d6ce`     | Sub-headings                          |
+| `--color-ink-muted`     | `#5a5a64`  | `#a6a39c`     | Body copy, secondary text             |
+| `--color-ink-subtle`    | `#6b6b75`  | `#8b8882`     | Meta text, labels                     |
+| `--color-line`          | `#e3e0d9`  | `#2d2d37`     | Hairlines                             |
+| `--color-line-strong`   | `#cfcbc1`  | `#42424f`     | Emphasised borders, inputs            |
+| `--color-accent`        | `#2a45d8`  | `#7b93ff`     | Primary accent                        |
+| `--color-accent-soft`   | `#4058e8`  | `#98aaff`     | Accent hover                          |
+| `--color-accent-deep`   | `#1e33a8`  | `#5d78f0`     | Accent pressed                        |
+| `--color-on-accent`     | `#ffffff`  | `#0b1020`     | Text on an accent fill                |
+| `--color-signal`        | `#9d5718`  | `#dda15f`     | Secondary accent, used sparingly      |
+
+Three more tokens carry the atmosphere. Their alpha lives **inside the
+colour**, not in an opacity modifier, because Tailwind bakes `bg-accent/20`
+into a literal hex at build time — which would stop it inverting with the
+band:
+
+| Token                | Light                       | Inverted band                  |
+| -------------------- | --------------------------- | ------------------------------ |
+| `--color-wash`       | `rgb(42 69 216 / 0.17)`     | `rgb(123 147 255 / 0.20)`      |
+| `--color-wash-soft`  | `rgb(42 69 216 / 0.08)`     | `rgb(123 147 255 / 0.10)`      |
+| `--color-wash-warm`  | `rgb(157 87 24 / 0.10)`     | `rgb(221 161 95 / 0.12)`       |
+
+### The inverted band
+
+Dark sections are not a second theme. The `.band-ink` class **re-points the
+same custom properties** to their dark values:
+
+```css
+.band-ink {
+  --color-paper: #121216;
+  --color-ink: #f7f5f0;
+  --color-accent: #7b93ff;
+  /* …and every other token */
+}
+```
+
+Because Tailwind v4 emits utilities as `var(--color-*)`, everything inside the
+band — type, rules, buttons, borders, accents — flips in one move, and no
+second stylesheet is needed. Anything you add inside `.band-ink` inherits the
+inversion for free.
+
+> **Gotcha:** never use an opacity modifier on a theme colour inside a band
+> (`bg-accent/20`). Tailwind resolves it to a literal hex at build time and it
+> will not invert. Use `bg-wash` / `bg-wash-warm`, or a token with the alpha
+> already inside it.
+
+### Typography
+
+| Role            | Face              | Notes                                        |
+| --------------- | ----------------- | -------------------------------------------- |
+| Display         | Instrument Serif  | Headlines, the wordmark, large numerals      |
+| Body            | Instrument Sans   | Everything that is read in a sentence        |
+| Labels / code   | JetBrains Mono    | Eyebrows, tags, small caps labels            |
+
+Loaded from Google Fonts in `index.html` with `preconnect` hints. No font SDK,
+no client-side loader.
+
+### Motion vocabulary
+
+Motion is defined as CSS utilities in `src/styles/index.css`, so it can be
+applied with a class and removed by a single `prefers-reduced-motion` rule.
+
+| Utility                    | Effect                                                     |
+| -------------------------- | ---------------------------------------------------------- |
+| `wash` / `wash-ink`        | Soft cobalt bloom behind a section                          |
+| `aurora-blob`              | Drifting, blurred depth blob (with `aurora-a` / `aurora-b`) |
+| `text-gradient`            | Accent gradient through a headline, with a drift animation  |
+| `rule-flow`                | A hairline that catches a travelling highlight              |
+| `marquee` / `marquee-track`| The scrolling technology ticker (pauses on hover)            |
+| `sheen`                    | A light sweep across a button on hover                      |
+| `border-flow`              | A conic-gradient border that rotates                         |
+| `scroll-progress`          | The reading-progress bar in the header                      |
+| `hero-schematic`           | The hero's node diagram, with `hero-node` pulses             |
+| `float-soft`               | A slow vertical drift for the hero schematic                 |
+| `page-enter`               | The route transition — a blur-and-rise                       |
+| `[data-reveal]`            | Scroll-triggered reveal, via `useReveal`                    |
+
+Every one of these is disabled under `prefers-reduced-motion: reduce`.
+
+### Cursor
+
+`src/components/layout/CustomCursor.tsx` draws a two-part cursor: a dot that
+tracks the pointer exactly, and a ring that eases behind it (0.18 lerp). The
+ring carries a contextual label on links that open in a new tab.
+
+It is pointer-driven only — it never mounts on a coarse pointer (touch), and
+it never mounts under `prefers-reduced-motion: reduce`. The native cursor is
+hidden only once the custom one is running, so nothing is left without a
+pointer, and the element is `pointer-events: none` throughout.
 
 ---
 
@@ -85,20 +198,22 @@ arqeno/
     │   ├── site.json          # canonical URL (shared with the build script)
     │   ├── founder.ts         # founder / team entries
     │   ├── projects.ts        # project data
+    │   ├── skills.ts          # skill groups + the hero ticker
     │   ├── services.ts        # service list + engagement process
     │   └── navigation.ts      # primary navigation links
     ├── components/
-    │   ├── layout/            # Header, Footer, Layout, Logo
+    │   ├── layout/            # Header, Footer, Layout, Logo, CustomCursor
     │   ├── ui/                # ActionLink, Section, PageHeader, ExternalLink…
-    │   ├── home/              # Hero, FeaturedProjects, ServicesOverview…
-    │   ├── projects/          # ProjectCard, StatusPill
+    │   ├── home/              # Hero, TechMarquee, FeaturedProjects, ContactCta…
+    │   ├── projects/          # ProjectCard, ProjectVisual, StatusPill
     │   ├── services/          # ServiceIcon
     │   ├── contact/           # InquiryForm
-    │   └── about/             # SocialLinks
+    │   └── about/             # SocialLinks, SkillsGrid
     ├── hooks/
-    │   └── useSeo.ts          # per-route title, meta, OG tags and JSON-LD
+    │   ├── useSeo.ts          # per-route title, meta, OG tags and JSON-LD
+    │   └── useReveal.ts       # scroll-triggered reveal for [data-reveal]
     ├── pages/                 # one component per route
-    └── styles/index.css       # design tokens + base styles
+    └── styles/index.css       # design tokens, motion utilities, base styles
 ```
 
 ---
@@ -118,10 +233,14 @@ export const siteConfig = {
   email: 'aryankushwaha9829@gmail.com',
   social: {
     github: 'https://github.com/kushwaha-aryan',
+    linkedin: 'https://www.linkedin.com/in/aryan-kushwaha-608204322/',
     leetcode: 'https://leetcode.com/u/dartGoblin42/',
   },
 }
 ```
+
+`social.linkedin` is optional — leave it as an empty string and the LinkedIn
+button disappears from the header, the footer and the contact page.
 
 ### Canonical URL
 
@@ -164,6 +283,8 @@ do not need to edit anything else to change it.
   repoUrl: 'https://github.com/…',        // required
   demoUrl: 'https://…',                   // optional — only if verified
   tech: ['Next.js', 'TypeScript'],
+  visual: 'aperture',           // which generated artwork the card shows
+  figure: 'Aperture study',    // the caption printed on the artwork
   highlights: ['A verifiable characteristic of the build.'],
   year: 2026,
   featured: true,                         // shown on the home page
@@ -172,6 +293,39 @@ do not need to edit anything else to change it.
 
 The Projects page filters automatically by `category`, and the home page shows
 everything with `featured: true`.
+
+`visual` selects one of the hand-drawn project artworks in
+`src/components/projects/ProjectVisual.tsx`. The available names are
+`aperture`, `filmstrip`, `agents`, `spectrogram`, `clusters`, `document`,
+`catalogue` and `tiles` — pick one per project. `figure` is the short
+caption printed on the artwork.
+
+### Skills and the technology ticker
+
+`src/config/skills.ts` holds two things: the grouped skill list shown on the
+About page, and the short labels that scroll through the hero ticker.
+
+```ts
+export const skillGroups: SkillGroup[] = [
+  {
+    id: 'backend',
+    label: 'Backend & databases',
+    items: [
+      { label: 'Node.js', verified: true },
+      { label: 'MySQL' },
+    ],
+  },
+]
+```
+
+`verified: true` marks a technology that also appears in a public repository
+listed on this site, so a visitor can open it and check. Items without the
+flag are still shown — they are part of the founder's own account of their
+work — but they are never presented as something a reader can verify.
+
+The ticker is driven by `stackTicker` in the same file. Keep the entries short
+(the strip is a single line) and only list what the studio actually ships
+with.
 
 ### Founder and team
 
@@ -290,6 +444,13 @@ project's own repository. Where a project is a prototype or a research effort
 it says so, and the "Honest limits" section on the Services page states
 plainly what a single founder cannot promise.
 
+The skill list on the About page follows the same rule. A cobalt dot marks
+the technologies that also appear in a public repository listed on this site;
+anything without the dot is shown as the founder's own account of their work
+rather than as a claim a visitor can check. If a skill should not be listed
+at all, remove it from `src/config/skills.ts` — the marker is there to make
+the distinction visible, not to keep the list long.
+
 If you add a client project later, add it to `src/config/projects.ts` with
 `category: 'client'`-style labelling of your choosing and a real repository or
 live URL — and only publish a testimonial if the client actually gave one.
@@ -312,10 +473,26 @@ live URL — and only publish a testimonial if the client actually gave one.
 - External links open in a new tab with `rel="noopener noreferrer"` and carry
   a descriptive `aria-label`.
 - Focus is always visible (a 2px accent outline with offset).
-- `prefers-reduced-motion: reduce` disables the entrance animation and all
-  transitions.
-- Colour contrast: body text is `#a3a3b3` on `#0a0a0e` (≈6.4:1); accent text
-  on dark surfaces clears 4.5:1.
+- `prefers-reduced-motion: reduce` disables the entrance animation, the
+  scroll reveals, the ticker, the drifting blobs, the gradient drift and every
+  transition.
+- The custom cursor is pointer-driven only and is not rendered on touch
+  devices.
+
+**Colour contrast** (measured against the shipped tokens):
+
+| Foreground         | On paper | On surface | On surface-muted |
+| ------------------ | -------- | ---------- | ---------------- |
+| `--color-ink`      | 17.29:1  | 18.69:1    | 15.96:1          |
+| `--color-ink-muted`| 6.31:1   | 6.82:1     | 5.82:1           |
+| `--color-ink-subtle` | 4.88:1 | 5.27:1     | 4.50:1           |
+| `--color-accent`   | 6.61:1   | 7.14:1     | 6.10:1           |
+| `--color-signal`   | 5.10:1   | 5.51:1     | 4.71:1           |
+
+Inside the inverted `.band-ink` scope the same roles measure 17.15:1 (ink),
+7.42:1 (muted), 5.29:1 (subtle), 6.64:1 (accent) and 8.31:1 (signal) on
+paper, and 6.73:1 for text on an accent fill. Every text/background pair on
+the site clears WCAG AA (4.5:1) for body text.
 
 ---
 
@@ -354,6 +531,11 @@ this version claims to do.
 - **No analytics or error tracking** are installed, deliberately.
 - The social preview image uses a Google Fonts download at build time; if you
   change the fonts, regenerate `public/og-image.png`.
+- **Some listed skills are not yet verifiable.** C++, C, SQL, MySQL, Object-Oriented
+  Programming, Unsupervised Learning, Recommender Systems, Reinforcement
+  Learning and VS Code do not appear in the founder's public repositories, so
+  they are listed without the cobalt verification dot. They can be removed from
+  `src/config/skills.ts` at any time.
 
 ---
 

@@ -16,6 +16,23 @@ export type ProjectCategory = 'product' | 'prototype' | 'research' | 'experiment
 
 export type ProjectStatus = 'live' | 'active' | 'prototype' | 'research'
 
+/**
+ * The abstract diagram used to illustrate a project.
+ *
+ * These are deliberately schematic compositions drawn in SVG — grids,
+ * rings, waveforms and matrices. They are not screenshots of the
+ * applications and are never presented as such.
+ */
+export type ProjectVisual =
+  | 'aperture'
+  | 'filmstrip'
+  | 'agents'
+  | 'spectrogram'
+  | 'clusters'
+  | 'document'
+  | 'catalogue'
+  | 'tiles'
+
 export type Project = {
   slug: string
   name: string
@@ -27,6 +44,10 @@ export type Project = {
   status: ProjectStatus
   /** Human-readable status label, e.g. "Live product". */
   statusLabel: string
+  /** Which abstract diagram illustrates the project. */
+  visual: ProjectVisual
+  /** Caption shown under the diagram, e.g. "Aperture study". */
+  figure: string
   /** GitHub repository. */
   repoUrl: string
   /** Live demo — only present when the URL was verified. */
@@ -52,9 +73,21 @@ export const projects: Project[] = [
     category: 'product',
     status: 'live',
     statusLabel: 'Live product',
+    visual: 'aperture',
+    figure: 'Aperture study',
     repoUrl: 'https://github.com/kushwaha-aryan/portraitlab-ai',
     demoUrl: 'https://portraitlab-ai.onrender.com/',
-    tech: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Cloudflare Workers AI', 'Sharp', 'Zod', 'Vitest'],
+    tech: [
+      'Next.js',
+      'React',
+      'TypeScript',
+      'Tailwind CSS',
+      'Cloudflare Workers AI',
+      'Sharp',
+      'Zod',
+      'Vitest',
+      'ESLint',
+    ],
     highlights: [
       'Five preset styles with editable background, clothing, lighting and framing',
       'Server-side upload validation with Sharp and settings validation with Zod',
@@ -73,9 +106,23 @@ export const projects: Project[] = [
     category: 'product',
     status: 'live',
     statusLabel: 'Live product',
+    visual: 'filmstrip',
+    figure: 'Frame index',
     repoUrl: 'https://github.com/kushwaha-aryan/movieV3',
     demoUrl: 'https://kushwaha-aryan.github.io/movieV3/',
-    tech: ['Node.js', 'Express', 'MongoDB', 'JWT', 'bcrypt', 'HTML', 'CSS', 'JavaScript'],
+    tech: [
+      'Node.js',
+      'Express.js',
+      'REST APIs',
+      'MongoDB',
+      'JWT',
+      'bcrypt',
+      'Rate Limiting',
+      'CORS',
+      'HTML',
+      'CSS',
+      'JavaScript',
+    ],
     highlights: [
       'Route modules for movies, reviews, saved movies, users and recommendations',
       'JWT authentication with bcrypt hashing, CORS and rate limiting on the API',
@@ -94,9 +141,19 @@ export const projects: Project[] = [
     category: 'product',
     status: 'active',
     statusLabel: 'Independent project',
+    visual: 'agents',
+    figure: 'Agent topology',
     repoUrl: 'https://github.com/kushwaha-aryan/AgenticAI',
     demoUrl: 'https://kushwaha-aryan.github.io/AgenticAI/',
-    tech: ['Python', 'Groq', 'pandas', 'matplotlib', 'JavaScript'],
+    tech: [
+      'Python',
+      'Groq',
+      'LLM APIs',
+      'Agentic AI',
+      'pandas',
+      'matplotlib',
+      'JavaScript',
+    ],
     highlights: [
       'Analyst, Risk and Advisor agents plus a multi-turn Q&A loop',
       'Tool-calling with a zero-argument schema so the model never supplies its own numbers',
@@ -115,9 +172,20 @@ export const projects: Project[] = [
     category: 'prototype',
     status: 'prototype',
     statusLabel: 'Research prototype',
+    visual: 'spectrogram',
+    figure: 'Mel-spectrogram grid',
     repoUrl:
       'https://github.com/kushwaha-aryan/edge-ai-acoustic-supervisor',
-    tech: ['Python', 'TensorFlow', 'librosa', 'scikit-learn', 'NumPy', 'matplotlib'],
+    tech: [
+      'Python',
+      'TensorFlow',
+      'CNN',
+      'librosa',
+      'scikit-learn',
+      'NumPy',
+      'matplotlib',
+      'sounddevice',
+    ],
     highlights: [
       'Runs entirely on a laptop — no cloud service and no hardware control',
       'Per-class trigger policy with confidence thresholds, cooldowns and presets',
@@ -136,6 +204,8 @@ export const projects: Project[] = [
     category: 'research',
     status: 'research',
     statusLabel: 'Research project',
+    visual: 'clusters',
+    figure: 'Blocking &amp; ranking',
     repoUrl:
       'https://github.com/kushwaha-aryan/business-entity-resolution',
     tech: ['Python', 'NumPy', 'scikit-learn', 'SciPy', 'pytest'],
@@ -157,6 +227,8 @@ export const projects: Project[] = [
     category: 'product',
     status: 'live',
     statusLabel: 'Live product',
+    visual: 'document',
+    figure: 'Page structure',
     repoUrl: 'https://github.com/kushwaha-aryan/resume',
     demoUrl: 'https://kushwaha-aryan.github.io/resume/',
     tech: ['HTML', 'CSS', 'GitHub Actions'],
@@ -178,9 +250,11 @@ export const projects: Project[] = [
     category: 'experiment',
     status: 'active',
     statusLabel: 'Earlier iteration',
+    visual: 'catalogue',
+    figure: 'Catalogue grid',
     repoUrl: 'https://github.com/kushwaha-aryan/MovieV2',
     demoUrl: 'https://kushwaha-aryan.github.io/MovieV2/',
-    tech: ['Node.js', 'Express', 'HTML', 'CSS', 'JavaScript'],
+    tech: ['Node.js', 'Express.js', 'REST APIs', 'MongoDB', 'HTML', 'CSS', 'JavaScript'],
     highlights: [
       'Search, genre filtering and sorting across the catalogue',
       'Infinite scrolling with a responsive front end',
@@ -199,6 +273,8 @@ export const projects: Project[] = [
     category: 'experiment',
     status: 'active',
     statusLabel: 'Experiment',
+    visual: 'tiles',
+    figure: 'Tile map',
     repoUrl: 'https://github.com/kushwaha-aryan/rpg',
     demoUrl: 'https://kushwaha-aryan.github.io/rpg/',
     tech: ['JavaScript', 'HTML', 'CSS'],

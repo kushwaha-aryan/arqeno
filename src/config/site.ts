@@ -25,11 +25,12 @@ export const siteConfig = {
    *  script that generates sitemap.xml and robots.txt reads the same value. */
   url: siteJson.url,
   locale: 'en_US',
-  themeColor: '#0a0a0e',
+  themeColor: '#f7f6f3',
   /** Contact address — used by the mailto fallback on the Contact page. */
   email: 'aryankushwaha9829@gmail.com',
   social: {
     github: 'https://github.com/kushwaha-aryan',
+    linkedin: 'https://www.linkedin.com/in/aryan-kushwaha-608204322/',
     leetcode: 'https://leetcode.com/u/dartGoblin42/',
   },
 } as const

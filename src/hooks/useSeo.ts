@@ -61,6 +61,20 @@ export type SeoOptions = {
 }
 
 /**
+ * Builds the document title for a route.
+ *
+ * The site name is appended to the page name, except when the page name
+ * already carries it — the home page's title starts with "Arqeno", so
+ * appending it again would read "Arqeno — an independent software studio —
+ * Arqeno".
+ */
+function fullDocumentTitle(title: string) {
+  return title.startsWith(siteConfig.name)
+    ? title
+    : `${title} — ${siteConfig.name}`
+}
+
+/**
  * Keeps the document head in sync with the current route.
  *
  * A single-page app only ships one HTML document, so the title, description,
@@ -84,8 +98,7 @@ export function useSeo({
   )
 
   useEffect(() => {
-    const fullTitle =
-      title === siteConfig.name ? title : `${title} — ${siteConfig.name}`
+    const fullTitle = fullDocumentTitle(title)
     const url = absoluteUrl(path)
     const imageUrl = absoluteUrl(image)
 
@@ -114,8 +127,7 @@ export function useSeo({
   }, [title, description, path, image, type])
 
   useEffect(() => {
-    const fullTitle =
-      title === siteConfig.name ? title : `${title} — ${siteConfig.name}`
+    const fullTitle = fullDocumentTitle(title)
 
     upsertJsonLd({
       '@context': 'https://schema.org',
