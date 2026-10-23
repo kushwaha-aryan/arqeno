@@ -4,9 +4,9 @@ import { skillGroups } from '../../config/skills'
  * The studio's skill set, grouped by area.
  *
  * A small cobalt dot marks the technologies that can be checked against a
- * public repository listed on this site. Everything else is still shown —
- * it is part of the founder's own account of their work — but it is not
- * presented as something a visitor can open and read.
+ * public repository listed on this site. Anything added later without that
+ * evidence is still shown, but without the dot that invites a visitor to go
+ * and read it.
  */
 export function SkillsGrid() {
   return (
@@ -50,10 +50,7 @@ export function SkillsGrid() {
 
       <p className="mt-5 flex items-center gap-2 text-xs text-ink-subtle">
         <span aria-hidden="true" className="size-1 shrink-0 rounded-full bg-accent" />
-        <span>
-          Also used in a public repository on this site. Everything else is the
-          founder&rsquo;s own account of their work.
-        </span>
+        <span>Also used in a public repository on this site.</span>
       </p>
     </div>
   )

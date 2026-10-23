@@ -56,6 +56,12 @@ export type SeoOptions = {
   image?: string
   /** Open Graph type. */
   type?: 'website' | 'article' | 'profile'
+  /**
+   * Contents of the robots meta tag. Defaults to "index, follow". The value
+   * is rewritten on every route because a meta tag created for one page
+   * would otherwise persist across client-side navigation.
+   */
+  robots?: string
   /** Extra structured data merged into the page's JSON-LD graph. */
   jsonLd?: Record<string, unknown>
 }
@@ -88,6 +94,7 @@ export function useSeo({
   path,
   image = '/og-image.png',
   type = 'website',
+  robots = 'index, follow',
   jsonLd,
 }: SeoOptions) {
   // Stable string key so an inline object literal does not retrigger the
@@ -105,6 +112,7 @@ export function useSeo({
     document.title = fullTitle
 
     upsertMeta({ key: 'name', value: 'description', content: description })
+    upsertMeta({ key: 'name', value: 'robots', content: robots })
     upsertCanonical(url)
 
     upsertMeta({ key: 'property', value: 'og:title', content: fullTitle })
@@ -124,7 +132,7 @@ export function useSeo({
     upsertMeta({ key: 'name', value: 'twitter:title', content: fullTitle })
     upsertMeta({ key: 'name', value: 'twitter:description', content: description })
     upsertMeta({ key: 'name', value: 'twitter:image', content: imageUrl })
-  }, [title, description, path, image, type])
+  }, [title, description, path, image, type, robots])
 
   useEffect(() => {
     const fullTitle = fullDocumentTitle(title)

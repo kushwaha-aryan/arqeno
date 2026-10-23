@@ -150,6 +150,7 @@ export function InquiryForm() {
               name="name"
               type="text"
               autoComplete="name"
+              required
               value={values.name}
               onChange={(event) => update('name', event.target.value)}
               aria-invalid={errors.name ? true : undefined}
@@ -175,6 +176,7 @@ export function InquiryForm() {
               name="email"
               type="email"
               autoComplete="email"
+              required
               value={values.email}
               onChange={(event) => update('email', event.target.value)}
               aria-invalid={errors.email ? true : undefined}
@@ -200,6 +202,7 @@ export function InquiryForm() {
             <select
               id="projectType"
               name="projectType"
+              required
               value={values.projectType}
               onChange={(event) => update('projectType', event.target.value)}
               aria-invalid={errors.projectType ? true : undefined}
@@ -256,11 +259,15 @@ export function InquiryForm() {
             id="message"
             name="message"
             rows={6}
+            required
             value={values.message}
             onChange={(event) => update('message', event.target.value)}
             aria-invalid={errors.message ? true : undefined}
             aria-describedby={
-              errors.message ? 'message-error message-hint' : 'message-hint'
+              // The hint and the error share a slot, so only one of the two
+              // ids exists at a time — pointing at both would leave a
+              // dangling reference for screen readers.
+              errors.message ? 'message-error' : 'message-hint'
             }
             className={`${fieldClass} resize-y ${errors.message ? errorClass : ''}`}
             placeholder="What are you trying to build, who is it for, and what is in the way?"

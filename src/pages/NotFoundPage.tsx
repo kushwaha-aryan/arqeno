@@ -7,6 +7,9 @@ export function NotFoundPage() {
     title: 'Page not found',
     description: 'The page you were looking for does not exist on the Arqeno website.',
     path: '/404',
+    // The hosting layer serves this route with a real 404 status; the meta
+    // tag keeps crawlers that read the HTML away from it as well.
+    robots: 'noindex, follow',
   })
 
   return (

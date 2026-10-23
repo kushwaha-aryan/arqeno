@@ -24,9 +24,10 @@ export type SkillItem = {
   label: string
   /**
    * True when the item can be checked against a public repository listed
-   * on this site. Unverified items are still shown — they are part of the
-   * founder's own account of their work — but they are never presented as
-   * something a visitor can open and read.
+   * on this site. Every skill currently listed is backed by one. The flag
+   * stays because an unverified item added later is still shown as part of
+   * the founder's own account of their work, just without the dot that
+   * invites a visitor to go and read the evidence.
    */
   verified?: boolean
 }
@@ -47,9 +48,6 @@ export const skillGroups: SkillGroup[] = [
       { label: 'TypeScript', verified: true },
       { label: 'HTML5', verified: true },
       { label: 'CSS3', verified: true },
-      { label: 'C++' },
-      { label: 'C' },
-      { label: 'SQL' },
     ],
   },
   {
@@ -57,7 +55,6 @@ export const skillGroups: SkillGroup[] = [
     label: 'Core computer science',
     items: [
       { label: 'Data Structures & Algorithms', verified: true },
-      { label: 'Object-Oriented Programming' },
       { label: 'Problem Solving', verified: true },
     ],
   },
@@ -71,7 +68,6 @@ export const skillGroups: SkillGroup[] = [
       { label: 'JWT Authentication', verified: true },
       { label: 'Rate Limiting', verified: true },
       { label: 'MongoDB', verified: true },
-      { label: 'MySQL' },
     ],
   },
   {
@@ -84,9 +80,6 @@ export const skillGroups: SkillGroup[] = [
       { label: 'CNN', verified: true },
       { label: 'LLM APIs', verified: true },
       { label: 'Agentic AI', verified: true },
-      { label: 'Unsupervised Learning' },
-      { label: 'Recommender Systems' },
-      { label: 'Reinforcement Learning' },
     ],
   },
   {
@@ -95,7 +88,6 @@ export const skillGroups: SkillGroup[] = [
     items: [
       { label: 'Git', verified: true },
       { label: 'GitHub', verified: true },
-      { label: 'VS Code' },
     ],
   },
 ]
@@ -136,5 +128,4 @@ export const stackTicker: string[] = [
   'pytest',
   'Git',
   'GitHub',
-  'VS Code',
 ]

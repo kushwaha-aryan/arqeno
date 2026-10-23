@@ -8,36 +8,28 @@ type LogoProps = {
 }
 
 /**
- * The Arqeno mark: four crop marks around a single cobalt point — a
- * viewfinder, drawn in inline SVG so it needs no network request and
- * inherits the surrounding colour.
+ * The Arqeno mark.
+ *
+ * The supplied logo artwork is a dark tile carrying the angular mark with a
+ * small wordmark beneath it. At navigation size that wordmark collapses into
+ * noise, so `public/logo-mark.png` is the artwork cropped to the mark alone
+ * and the wordmark is set here in the site's display face — which keeps it
+ * typographically correct at every size and on every background.
+ *
+ * Source artwork:
+ * https://raw.githubusercontent.com/kushwaha-aryan/storage/refs/heads/main/arqeno-logo.png
  */
 export function Logo({ className = '', markOnly = false }: LogoProps) {
   return (
     <span className={`inline-flex items-center gap-2.5 ${className}`}>
-      <span className="relative grid size-7 place-items-center">
-        <svg
-          viewBox="0 0 32 32"
-          aria-hidden="true"
-          className="size-full text-ink"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinecap="square"
-        >
-          <path d="M4 11V5h6" opacity="0.5" />
-          <path d="M28 11V5h-6" opacity="0.5" />
-          <path d="M4 21v6h6" opacity="0.5" />
-          <path d="M28 21v6h-6" opacity="0.5" />
-          <circle
-            cx="16"
-            cy="16"
-            r="2.6"
-            fill="var(--color-accent)"
-            stroke="none"
-          />
-        </svg>
-      </span>
+      <img
+        src="/logo-mark.png"
+        alt={markOnly ? siteConfig.name : ''}
+        width={32}
+        height={32}
+        decoding="async"
+        className="size-8 shrink-0 rounded-[4px]"
+      />
 
       {markOnly ? null : (
         <span className="font-display text-[1.15rem] leading-none tracking-[-0.015em] text-ink">
